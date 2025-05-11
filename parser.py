@@ -1,6 +1,5 @@
 import requests
 from bs4 import BeautifulSoup
-import csv
 from urllib.parse import urljoin
 from multiprocessing import Pool
 import argparse
@@ -30,7 +29,6 @@ def prepare_links(links, parent_url):
     set_href = set()
     for link in links:
         href = link.get('href')
-
         if href:
             link = urljoin(parent_url, href)
             if 'http' in link:
@@ -45,12 +43,9 @@ def make_list_from_url(url):
 
 
 def make_finali_list(links_list):
-    # summ = 0
     union_set = set()
     for item in links_list:
-        # summ += len(item)
         union_set = union_set.union(item)
-    # print(summ)
     return list(union_set)
 
 
@@ -62,7 +57,7 @@ def write_txt(name, data):
 def main():
     parser = argparse.ArgumentParser(description='Search for links in an HTML page by a given URL.')
     parser.add_argument('url', help="Input site url.")
-    parser.add_argument( '-s', '--save_to_file', nargs='?', help="Save to file .csv.")
+    parser.add_argument( '-s', '--save_to_file', nargs='?', help="Save to file .txt.")
     args = parser.parse_args()
 
     pure_links = make_list_from_url(args.url)
